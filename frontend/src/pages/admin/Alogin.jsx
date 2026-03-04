@@ -46,11 +46,8 @@ function Alogin() {
                     </button>
                 </form>
                 <div className="auth-divider">or</div>
-                <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                    No admin account? <Link to="/admin/register" style={{ color: 'var(--accent)', fontWeight: 600 }}>Register</Link>
-                </p>
                 <p style={{ textAlign: 'center', marginTop: '0.75rem' }}>
-                    <Link to="/login" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>← User Login</Link>
+                    <Link to="/login" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>← Back to User Login</Link>
                 </p>
             </div>
         </div>

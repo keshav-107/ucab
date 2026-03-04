@@ -11,7 +11,6 @@ import Mybookings from './pages/user/Mybookings';
 
 // Admin pages
 import Alogin from './pages/admin/Alogin';
-import Aregister from './pages/admin/Aregister';
 import Ahome from './pages/admin/Ahome';
 import Users from './pages/admin/Users';
 import UserEdit from './pages/admin/UserEdit';
@@ -37,7 +36,6 @@ function App() {
 
         {/* Admin */}
         <Route path="/admin/login" element={<Alogin />} />
-        <Route path="/admin/register" element={<Aregister />} />
         <Route path="/ahome" element={<Ahome />} />
         <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/users/edit/:id" element={<UserEdit />} />
