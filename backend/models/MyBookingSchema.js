@@ -26,6 +26,11 @@ const MyBookingSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Booking date is required'],
         },
+        // Time the customer wants pickup (HH:MM format)
+        pickupTime: {
+            type: String,
+            required: [true, 'Pickup time is required'],
+        },
         status: {
             type: String,
             enum: ['Pending', 'Confirmed', 'Completed', 'Cancelled'],
@@ -37,7 +42,18 @@ const MyBookingSchema = new mongoose.Schema(
         },
         distance: {
             type: Number,
-            default: 10, // default distance in km
+            default: 10,
+        },
+        // Estimated ride duration in minutes (distance / 40 km/h avg)
+        estimatedDuration: {
+            type: Number,
+            default: 30,
+        },
+        // Slot the car is blocked for (set when admin Confirms the booking)
+        // Format: "HH:MM" – computed as pickupTime + estimatedDuration + 30 min buffer
+        slotEndTime: {
+            type: String,
+            default: null,
         },
     },
     { timestamps: true }

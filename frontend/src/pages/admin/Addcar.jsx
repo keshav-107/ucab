@@ -5,7 +5,7 @@ import Anav from './Anav';
 
 function Addcar() {
     const navigate = useNavigate();
-    const [form, setForm] = useState({ carName: '', carModel: '', carType: 'Sedan', seats: 4, pricePerKm: '', description: '' });
+    const [form, setForm] = useState({ carName: '', carModel: '', carType: 'Sedan', seats: 4, pricePerKm: '', description: '', carno: '' });
     const [image, setImage] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
@@ -69,6 +69,10 @@ function Addcar() {
                         <div className="form-group">
                             <label className="form-label">Description</label>
                             <textarea id="addcar-desc" className="form-control" name="description" placeholder="Brief cab description..." value={form.description} onChange={handleChange} rows={2} />
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Registration Number *</label>
+                            <input id="addcar-carno" className="form-control" type="text" name="carno" placeholder="e.g. MH12AB1234" value={form.carno} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
                             <label className="form-label">Car Image</label>

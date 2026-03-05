@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 const CarSchema = new mongoose.Schema(
     {
+        drivername: {
+            type: String,
+        },
+        carno: {
+            type: String,
+        },
         carName: {
             type: String,
             required: [true, 'Car name is required'],

@@ -161,6 +161,7 @@ function BookCab() {
     const navigate = useNavigate();
     const [car, setCar] = useState(null);
     const [bookingDate, setDate] = useState('');
+    const [pickupTime, setPickupTime] = useState('');
     const [loading, setLoading] = useState(true);
     const [submitting, setSub] = useState(false);
     const [error, setError] = useState('');
@@ -212,7 +213,7 @@ function BookCab() {
         try {
             await API.post('/api/bookings/book', {
                 carId: id, pickup: pickup.name, drop: drop.name,
-                bookingDate, distance: distance || 10,
+                bookingDate, pickupTime, distance: distance || 10,
             });
             setSuccess('🎉 Cab booked successfully! Redirecting…');
             setTimeout(() => navigate('/mybookings'), 2000);
@@ -241,6 +242,7 @@ function BookCab() {
                             <div style={{ fontWeight: 800, fontSize: '1.15rem', color: '#fff' }}>{car.carName}</div>
                             <div style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>{car.carModel} · {car.carType} · {car.seats} seats</div>
                             <div style={{ color: 'var(--accent)', fontWeight: 700, marginTop: '0.2rem' }}>₹{car.pricePerKm}/km</div>
+                            {car.carno && <div style={{ fontSize: '0.82rem', color: 'var(--accent)', marginTop: '0.15rem' }}>🚗 Reg: {car.carno}</div>}
                         </div>
                     </div>
                 )}
@@ -266,6 +268,11 @@ function BookCab() {
                                 <input id="book-date" className="form-control" type="date" value={bookingDate}
                                     onChange={(e) => setDate(e.target.value)} required
                                     min={new Date().toISOString().split('T')[0]} />
+                            </div>
+                            <div style={{ marginBottom: '1.25rem' }}>
+                                <label className="form-label">⏰ Pickup Time</label>
+                                <input id="book-time" className="form-control" type="time" value={pickupTime}
+                                    onChange={(e) => setPickupTime(e.target.value)} required />
                             </div>
 
                             {/* Distance + Fare */}

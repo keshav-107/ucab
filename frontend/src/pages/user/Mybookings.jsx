@@ -69,9 +69,19 @@ function Mybookings() {
                                 <div className="booking-title">
                                     {b.carId?.carName || 'Unknown Car'} · {b.carId?.carType}
                                 </div>
+                                {b.carId?.carno && (
+                                    <div style={{ fontSize: '0.82rem', color: 'var(--accent)', fontWeight: 700, marginBottom: '0.25rem' }}>
+                                        🚗 Reg: {b.carId.carno}
+                                    </div>
+                                )}
                                 <div className="booking-meta">📍 {b.pickup} → {b.drop}</div>
-                                <div className="booking-meta">📅 {new Date(b.bookingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                                <div className="booking-meta">📏 {b.distance} km</div>
+                                <div className="booking-meta">📅 {b.bookingDate} &nbsp;⏰ {b.pickupTime}</div>
+                                <div className="booking-meta">📏 {b.distance} km &nbsp;⏱ ~{b.estimatedDuration} min ride</div>
+                                {b.status === 'Confirmed' && b.slotEndTime && (
+                                    <div style={{ fontSize: '0.8rem', color: '#4ee377', marginTop: '0.25rem' }}>
+                                        ✅ Your cab is reserved until {b.slotEndTime}
+                                    </div>
+                                )}
                             </div>
                             <div style={{ textAlign: 'right' }}>
                                 <span className={`status-badge ${STATUS_STYLES[b.status] || ''}`}>{b.status}</span>

@@ -6,7 +6,7 @@ import Anav from './Anav';
 function Acabedit() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [form, setForm] = useState({ carName: '', carModel: '', carType: 'Sedan', seats: 4, pricePerKm: '', description: '', isAvailable: true });
+    const [form, setForm] = useState({ carName: '', carModel: '', carType: 'Sedan', seats: 4, pricePerKm: '', description: '', isAvailable: true, carno: '' });
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -23,7 +23,7 @@ function Acabedit() {
             setForm({
                 carName: data.carName, carModel: data.carModel, carType: data.carType,
                 seats: data.seats, pricePerKm: data.pricePerKm, description: data.description || '',
-                isAvailable: data.isAvailable,
+                isAvailable: data.isAvailable, carno: data.carno || '',
             });
         } catch {
             setError('Failed to load car data.');
@@ -94,6 +94,10 @@ function Acabedit() {
                             <div className="form-group">
                                 <label className="form-label">Description</label>
                                 <textarea id="cedit-desc" className="form-control" name="description" value={form.description} onChange={handleChange} rows={2} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Registration Number</label>
+                                <input id="cedit-carno" className="form-control" type="text" name="carno" placeholder="e.g. MH12AB1234" value={form.carno} onChange={handleChange} />
                             </div>
                             <div className="form-group">
                                 <label className="form-label">Car Image (optional)</label>
