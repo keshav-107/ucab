@@ -3,12 +3,12 @@ const Car = require('../models/CarSchema');
 // Add a new car (admin)
 const addCar = async (req, res) => {
     try {
-        const { carName, carModel, carType, seats, pricePerKm, description } = req.body;
+        const { carName, carModel, carType, seats, pricePerKm, description, carno } = req.body;
         if (!carName || !carModel || !seats || !pricePerKm) {
             return res.status(400).json({ message: 'carName, carModel, seats, and pricePerKm are required' });
         }
         const image = req.file ? `/uploads/${req.file.filename}` : '';
-        const car = await Car.create({ carName, carModel, carType, seats, pricePerKm, description, image });
+        const car = await Car.create({ carName, carModel, carType, seats, pricePerKm, description, carno, image });
         res.status(201).json({ message: 'Car added successfully', car });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -39,8 +39,8 @@ const getCarById = async (req, res) => {
 // Update car (admin)
 const updateCar = async (req, res) => {
     try {
-        const { carName, carModel, carType, seats, pricePerKm, description, isAvailable } = req.body;
-        const updateData = { carName, carModel, carType, seats, pricePerKm, description, isAvailable };
+        const { carName, carModel, carType, seats, pricePerKm, description, isAvailable, carno } = req.body;
+        const updateData = { carName, carModel, carType, seats, pricePerKm, description, isAvailable, carno };
         if (req.file) {
             updateData.image = `/uploads/${req.file.filename}`;
         }

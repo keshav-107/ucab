@@ -32,7 +32,10 @@ function Bookings() {
 
     const handleStatusChange = async (id, status) => {
         try {
-            await API.put(`/api/bookings/${id}/status`, { status });
+            const { data } = await API.put(`/api/bookings/${id}/status`, { status });
+            if (data.autoCancelled > 0) {
+                alert(`✅ Booking confirmed!\n⚠️ ${data.autoCancelled} conflicting ride(s) for the same car and time slot were automatically cancelled.`);
+            }
             fetchBookings();
         } catch (err) {
             alert(err.response?.data?.message || 'Update failed.');

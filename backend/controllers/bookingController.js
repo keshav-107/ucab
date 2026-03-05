@@ -162,9 +162,42 @@ const updateBookingStatus = async (req, res) => {
 
             // No conflict — lock the slot
             booking.slotEndTime = slotEnd;
+            booking.status = status;
+            await booking.save();
+
+            // ── AUTO-CANCEL overlapping Pending bookings for the same car/date ──
+            const overlappingPending = await Booking.find({
+                _id: { $ne: booking._id },
+                carId: booking.carId,
+                bookingDate: booking.bookingDate,
+                status: { $in: ['Pending'] },
+            });
+
+            const toCancel = overlappingPending.filter((b) =>
+                slotsOverlap(slotStart, slotEnd, b.pickupTime, addMinutes(b.pickupTime, b.estimatedDuration + 30))
+            );
+
+            const cancelledCount = toCancel.length;
+            if (cancelledCount > 0) {
+                await Booking.updateMany(
+                    { _id: { $in: toCancel.map((b) => b._id) } },
+                    { status: 'Cancelled' }
+                );
+            }
+            // ── END AUTO-CANCEL ──
+
+            const populated = await Booking.findById(booking._id)
+                .populate('carId', 'carName carModel carno');
+            return res.json({
+                message: `Booking confirmed.${cancelledCount > 0 ? ` ${cancelledCount} overlapping booking(s) were automatically cancelled.` : ''}`,
+                booking: populated,
+                autoCancelled: cancelledCount,
+            });
         }
 
+        // For non-Confirm status changes (Completed, Cancelled etc.)
         booking.status = status;
+        if (status === 'Cancelled') booking.slotEndTime = null;
         await booking.save();
 
         const populated = await Booking.findById(booking._id)
