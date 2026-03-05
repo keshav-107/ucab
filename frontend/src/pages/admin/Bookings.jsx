@@ -77,7 +77,8 @@ function Bookings() {
                                     <th>User</th>
                                     <th>Car</th>
                                     <th>Pickup → Drop</th>
-                                    <th>Date</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>Est. Ride</th>
                                     <th>Fare</th>
                                     <th>Status</th>
                                     <th>Update</th>
@@ -85,7 +86,7 @@ function Bookings() {
                             </thead>
                             <tbody>
                                 {filtered.length === 0 ? (
-                                    <tr><td colSpan={8} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '2rem' }}>No bookings found</td></tr>
+                                    <tr><td colSpan={9} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '2rem' }}>No bookings found</td></tr>
                                 ) : filtered.map((b, i) => (
                                     <tr key={b._id}>
                                         <td style={{ color: 'var(--text-muted)' }}>{i + 1}</td>
@@ -95,7 +96,17 @@ function Bookings() {
                                         </td>
                                         <td>{b.carId?.carName || '—'} <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>({b.carId?.carType})</span></td>
                                         <td style={{ fontSize: '0.85rem' }}>{b.pickup} → {b.drop}</td>
-                                        <td style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{new Date(b.bookingDate).toLocaleDateString()}</td>
+                                        <td style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                                            <div>{b.bookingDate}</div>
+                                            <div style={{ color: '#fff', fontWeight: 600 }}>{b.pickupTime || '—'}</div>
+                                        </td>
+                                        <td style={{ fontSize: '0.82rem' }}>
+                                            {b.estimatedDuration
+                                                ? <span style={{ color: '#4ee377', fontWeight: 600 }}>~{b.estimatedDuration} min</span>
+                                                : '—'
+                                            }
+                                            {b.distance ? <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{b.distance} km</div> : null}
+                                        </td>
                                         <td style={{ color: 'var(--accent)', fontWeight: 700 }}>₹{b.fare}</td>
                                         <td><span className={`status-badge ${STATUS_STYLES[b.status] || ''}`}>{b.status}</span></td>
                                         <td>
